@@ -7,21 +7,27 @@ on:
         description: 'Test Environnement'
         required: true
         default: '/dev'
+      loglevel:
+        description: 'Log Level'
+        required: true
+        default: 'info'  # Default value for the loglevel
 
 jobs:
   manual-job-DEV:
     runs-on: ubuntu-latest
+    name: Expressions
+    if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.loglevel == 'debug' }}  # Job condition
     environment: DEV
-    env:  # Définir les variables d'environnement pour ce job
+    env:
       MY_API_URL: 'https://dev.example.com'
 
     steps:
-      - name: Exemple
+      - name: Application DEV
         run: |
-          echo "Mon exemple"
+          echo "Mon application de test"
           echo "Env Name: ${{ github.event.inputs.Environment }}"
 
-      - name: GitHub Variable 
+      - name: GitHub Variable
         run: echo '${{ toJson(github) }}'
 
       - name: Runner Variable
@@ -36,16 +42,16 @@ jobs:
   manual-job-PROD:
     runs-on: ubuntu-latest
     environment: PROD
-    env:  # Définir les variables d'environnement pour ce job
+    env:
       MY_API_URL: 'https://prod.example.com'
 
     steps:
-      - name: Exemple
+      - name: Application PROD
         run: |
-          echo "Mon exemple"
+          echo "Mon application de prod"
           echo "Env Name: ${{ github.event.inputs.Environment }}"
 
-      - name: GitHub Variable 
+      - name: GitHub Variable
         run: echo '${{ toJson(github) }}'
 
       - name: Runner Variable
