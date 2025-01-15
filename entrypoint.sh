@@ -1,13 +1,18 @@
 #!/bin/sh -l
-RUN chmod +x /usr/src/entrypoint.sh
 
-# Use INPUT_<INPUT_NAME> to get the value of an input
+# Utiliser INPUT_<NOM_DU_PARAMETRE> pour récupérer une valeur d'entrée
 GREETING="Hello, $INPUT_WHO_TO_GREET!"
 
-# Use workflow commands to do things like set debug messages
+# Utiliser les commandes de workflow pour afficher des messages
 echo "::notice file=entrypoint.sh,line=7::$GREETING"
 
-# Write outputs to the $GITHUB_OUTPUT file
-echo "greeting=$GREETING" >>"$GITHUB_OUTPUT"
+# Vérifier si la variable $GITHUB_OUTPUT est définie et écrire les résultats
+if [ -n "$GITHUB_OUTPUT" ]; then
+  echo "greeting=$GREETING" >>"$GITHUB_OUTPUT"
+else
+  echo "Erreur : La variable GITHUB_OUTPUT n'est pas définie."
+  exit 1
+fi
 
+# Fin du script avec succès
 exit 0
