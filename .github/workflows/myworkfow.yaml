@@ -17,3 +17,7 @@ jobs:
               run: |
                 echo "Mon exemple"
                 echo "Env Name: ${{ github.event.inputs.Environment }}"
+            - name: GitHub Variable 
+              run : echo '${{ toJson(github)}}'
+            - name: Runner Variable
+              run: echo '${{ toJson(runner)}}'
