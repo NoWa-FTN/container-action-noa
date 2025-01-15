@@ -1,28 +1,58 @@
 name: Test Manual Workflow
 
 on:
-    workflow_dispatch:
-        inputs:
-            Environment:
-                description: 'Test Environnement '
-                required: true
-                default: '/dev'
+  workflow_dispatch:
+    inputs:
+      Environment:
+        description: 'Test Environnement'
+        required: true
+        default: '/dev'
 
 jobs:
-    manual-job:
-        runs-on: ubuntu-latest
-        environment: dev
+  manual-job-DEV:
+    runs-on: ubuntu-latest
+    environment: DEV
+    env:  # Définir les variables d'environnement pour ce job
+      MY_API_URL: 'https://dev.example.com'
 
-        steps:
-            - name: Exemple
-              run: |
-                echo "Mon exemple"
-                echo "Env Name: ${{ github.event.inputs.Environment }}"
-            - name: GitHub Variable 
-              run : echo '${{ toJson(github)}}'
-            - name: Runner Variable
-              run: echo '${{ toJson(runner)}}'
-            - name: Secrets Variable
-              run: echo '${{ toJson(secrets)}}'
-            - name: Environment Variable
-              run: echo '${{vars.MY_API_URL}}'
+    steps:
+      - name: Exemple
+        run: |
+          echo "Mon exemple"
+          echo "Env Name: ${{ github.event.inputs.Environment }}"
+
+      - name: GitHub Variable 
+        run: echo '${{ toJson(github) }}'
+
+      - name: Runner Variable
+        run: echo '${{ toJson(runner) }}'
+
+      - name: Secrets Variable
+        run: echo '${{ toJson(secrets) }}'
+
+      - name: Env Variable
+        run: echo "MY_API_URL = ${{ env.MY_API_URL }}"
+
+  manual-job-PROD:
+    runs-on: ubuntu-latest
+    environment: PROD
+    env:  # Définir les variables d'environnement pour ce job
+      MY_API_URL: 'https://prod.example.com'
+
+    steps:
+      - name: Exemple
+        run: |
+          echo "Mon exemple"
+          echo "Env Name: ${{ github.event.inputs.Environment }}"
+
+      - name: GitHub Variable 
+        run: echo '${{ toJson(github) }}'
+
+      - name: Runner Variable
+        run: echo '${{ toJson(runner) }}'
+
+      - name: Secrets Variable
+        run: echo '${{ toJson(secrets) }}'
+
+      - name: Env Variable
+        run: echo "MY_API_URL = ${{ env.MY_API_URL }}"
