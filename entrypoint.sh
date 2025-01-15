@@ -6,12 +6,18 @@ GREETING="Hello, $INPUT_WHO_TO_GREET!"
 # Utiliser les commandes de workflow pour afficher des messages
 echo "::notice file=entrypoint.sh,line=7::$GREETING"
 
-# Vérifier si la variable $GITHUB_OUTPUT est définie et écrire les résultats
+# Vérifier si la variable $GITHUB_OUTPUT est définie
 if [ -n "$GITHUB_OUTPUT" ]; then
+  # Si définie, écrire les résultats dans le fichier
   echo "greeting=$GREETING" >>"$GITHUB_OUTPUT"
 else
-  echo "Erreur : La variable GITHUB_OUTPUT n'est pas définie."
-  exit 1
+  # Si non définie, afficher un message et écrire localement
+  echo "Notice : La variable GITHUB_OUTPUT n'est pas définie. Exécution locale."
+  
+  # Écrire les résultats dans un fichier local temporaire
+  OUTPUT_FILE="/tmp/github_output"
+  echo "greeting=$GREETING" >>"$OUTPUT_FILE"
+  echo "Les résultats ont été écrits dans $OUTPUT_FILE"
 fi
 
 # Fin du script avec succès
