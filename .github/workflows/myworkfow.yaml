@@ -1,35 +1,28 @@
 name: Test Manual Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      Environment:
-        description: 'Test Environnement '
-        required: true
-        default: '/dev'
+    workflow_dispatch:
+        inputs:
+            Environment:
+                description: 'Test Environnement '
+                required: true
+                default: '/dev'
 
 jobs:
-  manual-job:
-    runs-on: ubuntu-latest
-    environment: dev
+    manual-job:
+        runs-on: ubuntu-latest
+        environment: dev
 
-    steps:
-      - name: Exemple
-        run: |
-          echo "Mon exemple"
-          echo "Env Name: ${{ github.event.inputs.Environment }}"
-          
-      - name: Define MY_API_URL
-        run: echo "MY_API_URL=https://example.com" >> $GITHUB_ENV
-        
-      - name: GitHub Variable 
-        run: echo '${{ toJson(github) }}'
-        
-      - name: Runner Variable
-        run: echo '${{ toJson(runner) }}'
-        
-      - name: Secrets Variable
-        run: echo '${{ toJson(secrets) }}'
-        
-      - name: Environment Variable
-        run: echo "MY_API_URL = ${{ env.MY_API_URL }}"
+        steps:
+            - name: Exemple
+              run: |
+                echo "Mon exemple"
+                echo "Env Name: ${{ github.event.inputs.Environment }}"
+            - name: GitHub Variable 
+              run : echo '${{ toJson(github)}}'
+            - name: Runner Variable
+              run: echo '${{ toJson(runner)}}'
+            - name: Secrets Variable
+              run: echo '${{ toJson(secrets)}}'
+            - name: Environment Variable
+              run: echo '${{vars.MY_API_URL}}'
