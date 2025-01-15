@@ -1,4 +1,5 @@
 #!/bin/sh -l
+RUN chmod +x /usr/src/entrypoint.sh
 
 # Use INPUT_<INPUT_NAME> to get the value of an input
 GREETING="Hello, $INPUT_WHO_TO_GREET!"
