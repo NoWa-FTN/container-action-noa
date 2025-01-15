@@ -3,6 +3,8 @@
 # Utiliser INPUT_<NOM_DU_PARAMETRE> pour récupérer une valeur d'entrée
 GREETING="Hello, $INPUT_WHO_TO_GREET!"
 
+GITHUB_OUTPUT=${GITHUB_OUTPUT:-/tmp/github_output}
+
 # Utiliser les commandes de workflow pour afficher des messages
 echo "::notice file=entrypoint.sh,line=7::$GREETING"
 

@@ -18,8 +18,6 @@ jobs:
     name: TEST-DEV
     if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.loglevel == 'debug' }}  # Job condition
     environment: DEV
-    env:
-      MY_API_URL: 'https://dev.example.com'
 
     steps:
       - name: Application DEV
@@ -37,14 +35,12 @@ jobs:
         run: echo '${{ toJson(secrets) }}'
 
       - name: Env Variable
-        run: echo "MY_API_URL = ${{ env.MY_API_URL }}"
+        run: echo "MY_API_URL = ${{ env.MY_API_URL_DEV }}"
 
   manual-job-PROD:
     runs-on: ubuntu-latest
     name: TEST-PROD
     environment: PROD
-    env:
-      MY_API_URL: 'https://prod.example.com'
 
     steps:
       - name: Application PROD
@@ -62,4 +58,4 @@ jobs:
         run: echo '${{ toJson(secrets) }}'
 
       - name: Env Variable
-        run: echo "MY_API_URL = ${{ env.MY_API_URL }}"
+        run: echo "MY_API_URL = ${{ env.MY_API_URL_PROD }}"
