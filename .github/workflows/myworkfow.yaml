@@ -14,13 +14,14 @@ on:
 
 jobs:
   manual-job:
-    runs-on: ubuntu-latest
     name: Test with Matrix
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]  # Ajouter Ubuntu et Windows dans la matrice
         environment: [DEV, PROD]  # Les deux environnements à tester
-
-    environment: ${{ matrix.environment }}  # Dynamique en fonction de la matrice
+    
+    runs-on: ${{ matrix.os }}  # Dynamique en fonction de l'OS défini dans la matrice
+    environment: ${{ matrix.environment }}  # Dynamique en fonction de l'environnement
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     
@@ -33,6 +34,19 @@ jobs:
           else
             echo "MY_API_URL=https://prod.example.com" >> $GITHUB_ENV
           fi
+        shell: bash  # Pour s'assurer que les conditions fonctionnent sous Ubuntu (Bash)
+        if: runner.os == 'Linux'  # Ce bloc de code s'exécute uniquement sur Linux (Ubuntu)
+
+      - name: Set MY_API_URL for Windows
+        id: set_url_windows
+        run: |
+          if (${{ matrix.environment }} -eq "DEV") {
+            echo "MY_API_URL=https://dev.example.com" | Out-File -FilePath $env:GITHUB_ENV -Append
+          } else {
+            echo "MY_API_URL=https://prod.example.com" | Out-File -FilePath $env:GITHUB_ENV -Append
+          }
+        shell: pwsh  # Utiliser PowerShell pour Windows
+        if: runner.os == 'Windows'  # Ce bloc de code s'exécute uniquement sur Windows
 
       - name: Application ${ { matrix.environment }}
         run: |
