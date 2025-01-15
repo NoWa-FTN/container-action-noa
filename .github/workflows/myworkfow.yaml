@@ -15,7 +15,7 @@ on:
 jobs:
   manual-job-DEV:
     runs-on: ubuntu-latest
-    name: Expressions
+    name: TEST-DEV
     if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.loglevel == 'debug' }}  # Job condition
     environment: DEV
     env:
@@ -41,6 +41,7 @@ jobs:
 
   manual-job-PROD:
     runs-on: ubuntu-latest
+    name: TEST-PROD
     environment: PROD
     env:
       MY_API_URL: 'https://prod.example.com'
